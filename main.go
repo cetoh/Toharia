@@ -6,8 +6,8 @@ import (
 	"os"
 	"sync"
 
-	objects "tohc/game/model"
-	calc "tohc/game/utility"
+	objects "toharia/game/model"
+	calc "toharia/game/utility"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"

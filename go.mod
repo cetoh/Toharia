@@ -1,4 +1,4 @@
-module tohc/game
+module toharia/game
 
 go 1.23.1
 
