@@ -2,7 +2,7 @@ package objects
 
 import (
 	"fmt"
-	calc "toharia/game/utility"
+	calc "toharia/utility"
 )
 
 type Player struct {
