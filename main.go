@@ -61,12 +61,16 @@ func HttpServer(w http.ResponseWriter, _ *http.Request) {
 	//Health Guage
 	gauge := chart.HealthGauge(&p)
 
-	// create a new line instance
-	bar := chart.InventoryBar(&p)
+	//XP Pie Chart
+	pie := chart.ExpPieRoseArea(&p)
+
+	//Inventory Bar
+	bar := chart.InventoryBar(&p, &g)
 
 	// Add charts to page
 	page.AddCharts(
 		gauge,
+		pie,
 		bar,
 	)
 
@@ -75,15 +79,15 @@ func HttpServer(w http.ResponseWriter, _ *http.Request) {
 }
 
 func updateGameState(p *objects.Player, g *objects.Game) bool {
-	fmt.Println("==========================")
-	fmt.Println("You have ", p.Seeds, " Seeds.")
-	fmt.Println("You have ", p.Food, " Food.")
-	fmt.Println("You have ", p.Water, " Water.")
-	fmt.Println("You have ", g.FallowLand, " fallow land.")
-	fmt.Println("You have ", g.FertileLand, " fertile land.")
-	fmt.Println("You have ", p.Health, " Health.")
-	fmt.Println("You have ", len(g.Crops), " Crops.")
-	fmt.Println("==========================")
+	// fmt.Println("==========================")
+	// fmt.Println("You have ", p.Seeds, " Seeds.")
+	// fmt.Println("You have ", p.Food, " Food.")
+	// fmt.Println("You have ", p.Water, " Water.")
+	// fmt.Println("You have ", g.FallowLand, " fallow land.")
+	// fmt.Println("You have ", g.FertileLand, " fertile land.")
+	// fmt.Println("You have ", p.Health, " Health.")
+	// fmt.Println("You have ", len(g.Crops), " Crops.")
+	// fmt.Println("==========================")
 
 	fmt.Println("What would you like to do?")
 	fmt.Println("1. Plant Seeds")

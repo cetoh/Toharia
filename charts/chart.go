@@ -9,7 +9,7 @@ import (
 
 var (
 	//Charting objects
-	xVals = []string{"Seeds", "Food", "Water", "Level"}
+	xVals = []string{"Seeds", "Food", "Water", "Level", "Fallow Land", "Fertile Land", "Crops"}
 )
 
 func HealthGauge(p *objects.Player) *charts.Gauge {
@@ -24,7 +24,7 @@ func HealthGauge(p *objects.Player) *charts.Gauge {
 	return gauge
 }
 
-func InventoryBar(p *objects.Player) *charts.Bar {
+func InventoryBar(p *objects.Player, g *objects.Game) *charts.Bar {
 	// create a new line instance
 	bar := charts.NewBar()
 	// set some global options like Title/Legend/ToolTip or anything else
@@ -44,11 +44,52 @@ func InventoryBar(p *objects.Player) *charts.Bar {
 	level := make([]opts.BarData, len(xVals))
 	level[3] = opts.BarData{Value: p.Level}
 
+	fallow := make([]opts.BarData, len(xVals))
+	fallow[4] = opts.BarData{Value: g.FallowLand}
+
+	fertile := make([]opts.BarData, len(xVals))
+	fertile[5] = opts.BarData{Value: g.FertileLand}
+
+	crops := make([]opts.BarData, len(xVals))
+	crops[6] = opts.BarData{Value: len(g.Crops)}
+
 	bar.SetXAxis(xVals).
 		AddSeries("Seeds", seeds).
 		AddSeries("Food", food).
 		AddSeries("Water", water).
-		AddSeries("Level", level)
+		AddSeries("Level", level).
+		AddSeries("Fallow Land", fallow).
+		AddSeries("Fertile Land", fertile).
+		AddSeries("Crops", crops)
 
 	return bar
+}
+
+func ExpPieRoseArea(p *objects.Player) *charts.Pie {
+	pie := charts.NewPie()
+	pie.SetGlobalOptions(
+		charts.WithTitleOpts(opts.Title{
+			Title: "Experience",
+		}),
+	)
+
+	values := make([]opts.PieData, 2)
+
+	currentXP := p.Exp
+	remainingXP := 100 - p.Exp
+
+	values[0] = opts.PieData{Name: "Remaining XP", Value: remainingXP}
+	values[1] = opts.PieData{Name: "Current XP", Value: currentXP}
+
+	pie.AddSeries("Exp", values).
+		SetSeriesOptions(
+			charts.WithLabelOpts(opts.Label{
+				Show:      opts.Bool(true),
+				Formatter: "{b}: {c}",
+			}),
+			charts.WithPieChartOpts(opts.PieChart{
+				Radius: []string{"40%", "75%"},
+			}),
+		)
+	return pie
 }
